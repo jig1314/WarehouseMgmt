@@ -11,12 +11,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// Initializing CAP library to handle publishing to message bus 
 builder.Services.AddCap(x =>
 {
     x.UseEntityFramework<ApplicationDbContext>();
 
     x.UseAzureServiceBus(opt =>
     {
+        // Connecting to Azure Service Bus to handle message queueing 
         opt.ConnectionString = builder.Configuration.GetConnectionString("AzureServiceBusConnection");
         opt.EnableSessions = true;
 
